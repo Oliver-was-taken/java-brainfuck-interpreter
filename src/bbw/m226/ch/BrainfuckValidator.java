@@ -48,12 +48,20 @@ public class BrainfuckValidator {
             switch (brainfuckExp.charAt(charAt)) {
                 case '+' -> {
                     currentValue = storage.get(storagePointer);
-                    currentValue++;
+                    if(currentValue < 255){
+                        currentValue++;
+                    }else{
+                        currentValue = 0;
+                    }
                     storage.set(storagePointer, currentValue);
                 }
                 case '-' -> {
                     currentValue = storage.get(storagePointer);
-                    currentValue--;
+                    if(currentValue > 0){
+                        currentValue--;
+                    }else{
+                        currentValue = 255;
+                    }
                     storage.add(storagePointer, currentValue);
                 }
                 case '.' -> {
@@ -85,11 +93,11 @@ public class BrainfuckValidator {
                     }
                 }
                 case '[' -> {
-                    jumpBackIndexes.push(storagePointer);
+                    jumpBackIndexes.push(charAt);
                 }
                 case ']' -> {
-                    if (storage.get(storagePointer) != null) {
-                        storagePointer = jumpBackIndexes.firstElement();
+                    if (storage.get(storagePointer) != 0) {
+                        charAt = jumpBackIndexes.get(0);
                     } else {
                         jumpBackIndexes.pop();
                     }
